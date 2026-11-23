@@ -70,6 +70,7 @@ const save=()=>{try{user?localStorage.setItem('hs_user',JSON.stringify(user)):lo
 const hide=()=>{$('#m').style.display='none'};
 const show=h=>{$('#mb').innerHTML='<button class="x" onclick="hide()" aria-label="Close">×</button>'+h;$('#m').style.display='flex'};
 let gn=0;
+const api=b=>fetch('/api/shop',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)}).then(r=>r.json()).catch(()=>({error:'Network error. Try again.'}));
 function garm(a,b,s){const n=++gn,D={
 kurta:`<path d="M62 24Q80 36 98 24L126 38 118 66 108 58 112 130H48L52 58 42 66 34 38Z"/><path d="M52 132H108L114 192H86L80 150 74 192H46Z"/>`,
 lehenga:`<path d="M62 22H98L104 62H56Z"/><path d="M58 70H102L140 188H20Z"/>`,
@@ -92,15 +93,15 @@ function view(i){const p=P[i],s=art(p[3],p[4],p[5]);show(`<h2>${p[0]}</h2><div c
 function showCart(){const t=cart.reduce((s,i)=>s+P[i][1],0);
 show('<h2>Your cart</h2>'+(cart.length?cart.map((i,k)=>`<div class="row"><span>${P[i][0]}<br>${inr(P[i][1])}</span><button onclick="cart.splice(${k},1);draw();showCart()">Remove</button></div>`).join('')+`<p><b>Total: ${inr(t)}</b></p><button class="btn red" onclick="checkout()">Checkout</button>`:'<p>Your cart is empty. Add a saree to get started.</p>'))}
 function acct(){if(user){user=null;save();draw()}else login()}
-function login(msg){show(`<h2>Login or register</h2><small>${msg||''}</small><input id="ln" placeholder="Your name"><input id="le" type="email" placeholder="Email"><input id="lp" type="password" placeholder="Password (6+ characters)"><p class="err" id="err"></p><button class="btn red" onclick="doLogin()">Continue</button><small>Demo login, saved on this device only. Real accounts need the backend.</small>`)}
-function doLogin(){const n=$('#ln').value.trim(),e=$('#le').value.trim();
+function login(msg){show(`<h2>Login or register</h2><small>${msg||''}</small><input id="ln" placeholder="Your name"><input id="le" type="email" placeholder="Email"><input id="lp" type="password" placeholder="Password (6+ characters)"><p class="err" id="err"></p><button class="btn red" onclick="doLogin()">Continue</button>`)}
+async function doLogin(){const n=$('#ln').value.trim(),e=$('#le').value.trim();
 if(!n||!/\S+@\S+\.\S+/.test(e)||$('#lp').value.length<6)return $('#err').textContent='Enter your name, a valid email and a password of 6 or more characters.';
-user={name:n,email:e};save();draw();cart.length?checkout():hide()}
+const r=await api({action:'auth',name:n,email:e,password:$('#lp').value});if(r.error)return $('#err').textContent=r.error;user={name:r.name,email:e,token:r.token};save();draw();cart.length?checkout():hide()}
 function checkout(){if(!user)return login('Log in to place your order.');
-show(`<h2>Delivery and payment</h2><input id="n" placeholder="Full name"><input id="mo" placeholder="Mobile number" inputmode="tel"><input id="e" placeholder="Email"><textarea id="a" rows="3" placeholder="Full address with city and PIN code"></textarea><p>Pay by</p><label><input type="radio" name="pay" value="UPI" checked style="display:inline;width:auto"> UPI</label><label><input type="radio" name="pay" value="Card" style="display:inline;width:auto"> Card</label><label><input type="radio" name="pay" value="Cash on delivery" style="display:inline;width:auto"> Cash on delivery</label><p class="err" id="err"></p><button class="btn red" onclick="pay()">Place order</button><small>Demo checkout. No payment is taken until a gateway such as Razorpay is connected.</small>`);
+show(`<h2>Delivery and payment</h2><input id="n" placeholder="Full name"><input id="mo" placeholder="Mobile number" inputmode="tel"><input id="e" placeholder="Email"><textarea id="a" rows="3" placeholder="Full address with city and PIN code"></textarea><p>Pay by</p><label><input type="radio" name="pay" value="UPI" checked style="display:inline;width:auto"> UPI</label><label><input type="radio" name="pay" value="Card" style="display:inline;width:auto"> Card</label><label><input type="radio" name="pay" value="Cash on delivery" style="display:inline;width:auto"> Cash on delivery</label><p class="err" id="err"></p><button class="btn red" onclick="pay()">Place order</button><small>Online card and UPI payment is not switched on yet. Your order is saved and we will contact you.</small>`);
 $('#n').value=user.name;$('#e').value=user.email}
-function pay(){if(!$('#n').value.trim()||!/^[6-9]\d{9}$/.test($('#mo').value.trim())||!$('#a').value.trim())return $('#err').textContent='Enter your name, a 10-digit mobile number and your full address.';
-const id='HS'+Date.now().toString().slice(-6),m=document.querySelector('input[name=pay]:checked').value;cart=[];draw();
+async function pay(){if(!$('#n').value.trim()||!/^[6-9]\d{9}$/.test($('#mo').value.trim())||!$('#a').value.trim())return $('#err').textContent='Enter your name, a 10-digit mobile number and your full address.';
+const m=document.querySelector('input[name=pay]:checked').value,r=await api({action:'order',token:user.token,name:$('#n').value.trim(),mobile:$('#mo').value.trim(),address:$('#a').value.trim(),method:m,items:cart.map(i=>({name:P[i][0],price:P[i][1]}))});if(r.error)return $('#err').textContent=r.error;const id=r.id;cart=[];draw();
 show(`<h2>Order placed</h2><p>Thank you! Your order number is <b>${id}</b>. Payment method: ${m}.</p><button class="btn" onclick="hide()">Continue shopping</button>`)}
 draw();
 </script></body></html>
