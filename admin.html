@@ -1,0 +1,12 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Admin</title>
+<style>body{font:15px system-ui,sans-serif;padding:14px;max-width:900px;margin:auto}input,button{font:inherit;padding:8px}table{border-collapse:collapse;width:100%;margin:8px 0 24px}td,th{border:1px solid #8886;padding:6px;text-align:left;vertical-align:top}.w{overflow-x:auto}</style></head><body>
+<h2>Hyderabad Sarees admin</h2>
+<div id="l"><input id="p" type="password" placeholder="Admin password"> <button onclick="go()">Open</button> <span id="e"></span></div><div id="d"></div>
+<script>
+const E=(t,c)=>{const n=document.createElement(t);if(c!=null)n.textContent=c;return n};
+function tbl(h,rows){const w=E('div');w.className='w';const t=E('table'),hr=E('tr');h.forEach(x=>hr.append(E('th',x)));t.append(hr);rows.forEach(a=>{const r=E('tr');a.forEach(x=>r.append(E('td',x)));t.append(r)});w.append(t);return w}
+async function go(){const r=await fetch('/api/shop',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'admin',password:document.getElementById('p').value})}).then(x=>x.json()).catch(()=>({error:'Network error'}));
+if(r.error)return document.getElementById('e').textContent=r.error;document.getElementById('l').remove();const d=document.getElementById('d');
+d.append(E('h3','Orders ('+r.orders.length+')'),tbl(['Order','Date','Customer','Mobile','Address','Items','Total','Payment'],r.orders.map(o=>[o.id,new Date(o.at).toLocaleString(),o.name+' ('+o.email+')',o.mobile,o.address,o.items.map(i=>i.name).join(', '),'₹'+o.total,o.method+' - '+o.status])));
+d.append(E('h3','Logins ('+r.users.length+')'),tbl(['Name','Email','Joined'],r.users.map(u=>[u.name,u.email,new Date(u.at).toLocaleString()])))}
+</script></body></html>
