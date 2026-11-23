@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hyderabad Sarees</title>
+<link href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Mukta:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f8f6fb;--fg:#1b1a2b;--card:#fff;--line:#e3dfee;--red:#b8294a;--gold:#e9a825;--hd:#1c2352;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14152a;--fg:#efeaf7;--card:#1f2040;--line:#2e3052;--red:#e5577a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#14152a;--fg:#efeaf7;--card:#1f2040;--line:#2e3052;--red:#e5577a;color-scheme:dark}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 Mukta,system-ui,sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--hd);z-index:10}
+h1,h2,.logo{font-family:'Rozha One',Georgia,serif;font-weight:400;margin:0}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:11;background:var(--hd);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:12px 16px}
+.logo{font-size:22px;color:var(--gold)}
+header nav button{background:none;border:0;color:#fff;font:inherit;margin-left:14px;cursor:pointer}
+.hero{padding:56px 20px 64px;color:#fff;background:var(--hd) repeating-linear-gradient(45deg,transparent 0 22px,rgba(233,168,37,.22) 22px 24px),repeating-linear-gradient(-45deg,transparent 0 22px,rgba(233,168,37,.22) 22px 24px)}
+.hero h1{font-size:clamp(32px,8vw,56px);line-height:1.1;max-width:14em}
+.hero p{max-width:30em;margin:14px 0 22px;opacity:.9}
+.btn{background:var(--gold);color:#1b1a2b;border:0;padding:10px 22px;border-radius:4px;font:600 15px Mukta,sans-serif;cursor:pointer}
+.btn.red{background:var(--red);color:#fff}
+#shop{padding:28px 16px 8px}h2{font-size:26px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:14px 0}
+.chip{border:1px solid var(--line);background:none;color:inherit;padding:6px 16px;border-radius:20px;font:inherit;cursor:pointer;white-space:nowrap}
+.chip.on{background:var(--red);border-color:var(--red);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:20px 14px;padding:0 16px 32px}
+.item svg{display:block;width:100%;height:auto;border-radius:2px}
+.pic{position:relative;perspective:600px;cursor:pointer}
+.pic svg{transition:transform .15s;transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));animation:fl 5s ease-in-out infinite}
+.pic::after{content:"360°";position:absolute;top:6px;right:6px;background:var(--hd);color:#fff;font-size:11px;padding:1px 7px;border-radius:10px}
+@keyframes fl{50%{translate:0 -4px}}
+.stage{perspective:800px;height:290px;display:flex;justify-content:center;align-items:center}
+.spin{position:relative;width:200px;height:250px;transform-style:preserve-3d;animation:sp 9s linear infinite}
+.face{position:absolute;inset:0;backface-visibility:hidden}.face.back{transform:rotateY(180deg)}
+.face svg{width:100%;height:100%}
+@keyframes sp{to{transform:rotateY(360deg)}}
+@media(prefers-reduced-motion:reduce){.pic svg,.spin{animation:none}}
+.item b{display:block;margin-top:8px;font-weight:600}.item span{color:var(--red);font-weight:600}
+.item .btn{display:block;width:100%;margin-top:8px;padding:8px}
+footer{background:var(--hd);color:#e9e6f5;padding:28px 20px}footer h2{color:var(--gold);margin-bottom:8px}footer p{margin:4px 0}
+.ov{display:none;position:fixed;inset:0;z-index:20;background:rgba(10,10,30,.6);align-items:flex-end;justify-content:center}
+#mb{background:var(--card);width:100%;max-width:460px;max-height:90%;overflow:auto;padding:20px;border-radius:12px 12px 0 0;position:relative}
+#mb input,#mb textarea{display:block;width:100%;margin:8px 0;padding:10px;border:1px solid var(--line);border-radius:4px;background:var(--bg);color:var(--fg);font:inherit}
+#mb label{margin-right:12px}#mb .btn{margin-top:10px}#mb small{display:block;margin-top:10px;opacity:.7}
+.x{position:absolute;top:8px;right:12px;background:none;border:0;font-size:26px;color:inherit;cursor:pointer}
+.err{color:var(--red);margin:4px 0}.row{display:flex;justify-content:space-between;gap:8px;padding:6px 0;border-bottom:1px solid var(--line)}
+.row button{background:none;border:0;color:var(--red);cursor:pointer;font:inherit}
+</style></head><body>
+<header><div class="logo">Hyderabad Sarees</div>
+<nav><button onclick="acct()" id="usr">Login</button><button onclick="showCart()">Cart (<span id="cnt">0</span>)</button></nav></header>
+<section class="hero"><h1>Handloom sarees from Hyderabad’s weavers</h1>
+<p>Sarees, kurta sets, lehengas, dresses and co-ord sets. Pochampally ikat, Gadwal silk and Banarasi, delivered across India.</p>
+<button class="btn" onclick="document.getElementById('shop').scrollIntoView()">Shop sarees</button></section>
+<section id="shop"><h2>Our collection</h2><div class="chips" id="chips"></div></section>
+<div class="grid" id="grid"></div>
+<footer><h2>Visit or contact us</h2>
+<p>Your Shop Address, Begum Bazaar, Hyderabad, Telangana – 5000XX</p>
+<p>Email: hello@yourdomain.com</p><p>Phone / WhatsApp: +91 98XXX XXXXX</p>
+<p>Open daily, 10:30 am to 8:30 pm</p></footer>
+<div class="ov" id="m" onclick="if(event.target===this)hide()"><div id="mb"></div></div>
+<script>
+const P=[['Pochampally Ikat Silk',4850,'Silk','#1c2352','#e9a825'],['Gadwal Silk with Zari Border',9500,'Silk','#b8294a','#e9a825'],['Narayanpet Cotton',2200,'Cotton','#0f6b6b','#f4d9a0'],['Banarasi Georgette',6800,'Party','#6b2a7a','#e9a825'],['Kanjivaram Bridal Silk',18900,'Bridal','#8e1b2f','#f2c14e'],['Mehendi Green Organza',3400,'Party','#3f8a3a','#f4d9a0'],['Haldi Yellow Cotton Silk',2950,'Cotton','#e9a825','#b8294a'],['Sangeet Tissue Saree',5600,'Party','#d6537f','#f4d9a0'],['Bridal Red Pochampally',12400,'Bridal','#a3142b','#f2c14e']];
+let cart=[],user=null,filter='All';
+P.push(['Chikankari Kurta Set',3200,'Kurta Sets','#f1ead8','#b8294a','kurta'],['Ikat Print Kurta with Palazzo',2800,'Kurta Sets','#1c2352','#e9a825','kurta'],['Rani Pink Silk Kurta Set',4100,'Kurta Sets','#d6537f','#f4d9a0','kurta'],['Bridal Red Lehenga',32000,'Bridal','#a3142b','#f2c14e','lehenga'],['Sangeet Green Lehenga',14500,'Lehengas','#0f6b6b','#e9a825','lehenga'],['Pastel Mehendi Lehenga',11900,'Lehengas','#f2b8c6','#3f8a3a','lehenga'],['Floral Midi Dress',2400,'Dresses','#e9a825','#1c2352','dress'],['Indigo Evening Dress',3900,'Dresses','#1c2352','#f4d9a0','dress'],['Mustard Co-ord Set',3100,'Co-ords','#c98a14','#1c2352','coord'],['Teal Linen Co-ord Set',2700,'Co-ords','#0f6b6b','#f4d9a0','coord']);
+const M={lehenga:'Lehengas',kurta:'Kurta Sets',dress:'Dresses',coord:'Co-ords'};
+const ok=p=>filter==='All'||p[2]===filter||(filter==='Sarees'&&!p[5])||M[p[5]]===filter;
+try{user=JSON.parse(localStorage.getItem('hs_user'))}catch(e){}
+const $=s=>document.querySelector(s),inr=n=>'₹'+n.toLocaleString('en-IN');
+const save=()=>{try{user?localStorage.setItem('hs_user',JSON.stringify(user)):localStorage.removeItem('hs_user')}catch(e){}};
+const hide=()=>{$('#m').style.display='none'};
+const show=h=>{$('#mb').innerHTML='<button class="x" onclick="hide()" aria-label="Close">×</button>'+h;$('#m').style.display='flex'};
+let gn=0;
+function garm(a,b,s){const n=++gn,D={
+kurta:`<path d="M62 24Q80 36 98 24L126 38 118 66 108 58 112 130H48L52 58 42 66 34 38Z"/><path d="M52 132H108L114 192H86L80 150 74 192H46Z"/>`,
+lehenga:`<path d="M62 22H98L104 62H56Z"/><path d="M58 70H102L140 188H20Z"/>`,
+dress:`<path d="M60 22H68L80 40 92 22H100L106 70 134 188H26L54 70Z"/>`,
+coord:`<path d="M60 32H100L124 52 116 70 106 64 108 82H52L54 64 44 70 36 52Z"/><path d="M54 88H106L136 192H90L80 116 70 192H24Z"/>`}[s];
+const tr={kurta:`<path d="M48 118H112L113 130H47Z" fill="${b}"/><path d="M70 26L80 56 90 26" fill="none" stroke="${b}" stroke-width="3"/>`,
+lehenga:`<path d="M26 172H134L140 188H20Z" fill="${b}"/><rect x="56" y="62" width="48" height="9" fill="${b}"/><path d="M98 22Q136 60 122 122" fill="none" stroke="${b}" stroke-width="7" opacity=".85"/>`,
+dress:`<rect x="53" y="66" width="54" height="7" fill="${b}"/><path d="M68 22L80 40 92 22" fill="none" stroke="${b}" stroke-width="3"/>`,
+coord:`<path d="M52 78H108V84H52Z" fill="${b}"/><path d="M26 182H134L136 192H24Z" fill="${b}"/>`}[s];
+return `<svg viewBox="0 0 160 200" role="img" aria-label="${s}"><defs><g id="g${n}">${D}</g><pattern id="p${n}" width="7" height="7" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="#fff" opacity=".3"/></pattern><linearGradient id="s${n}"><stop offset="0" stop-color="#000" stop-opacity=".22"/><stop offset=".45" stop-color="#fff" stop-opacity=".14"/><stop offset="1" stop-color="#000" stop-opacity=".28"/></linearGradient></defs><rect width="160" height="200" fill="${b}" opacity=".16"/><ellipse cx="80" cy="194" rx="50" ry="4" fill="#000" opacity=".18"/><rect x="75" y="40" width="10" height="22" rx="4" fill="#b87a55"/><ellipse cx="80" cy="30" rx="11" ry="13" fill="#c98f68"/><path d="M68 30Q66 12 80 13Q94 12 92 30Q88 20 80 21Q72 20 68 30Z" fill="#1b1a2b"/><circle cx="80" cy="11" r="6" fill="#1b1a2b"/><g transform="translate(16 42) scale(.8)"><use href="#g${n}" fill="${a}"/><use href="#g${n}" fill="url(#p${n})"/><use href="#g${n}" fill="url(#s${n})"/>${tr}</g></svg>`}
+function art(a,b,s){if(s)return garm(a,b,s);let d='';for(let y=0;y<4;y++)for(let x=0;x<4;x++){const cx=20+x*40,cy=24+y*38;d+=`<path d="M${cx} ${cy-14}l9 14-9 14-9-14z" fill="#fff" opacity=".4"/><path d="M${cx} ${cy-6}l4 6-4 6-4-6z" fill="${b}"/>`}
+return `<svg viewBox="0 0 160 200" role="img" aria-label="Saree swatch"><rect width="160" height="200" fill="${a}"/>${d}<rect y="168" width="160" height="32" fill="${b}"/><rect y="174" width="160" height="3" fill="#fff" opacity=".7"/><rect y="188" width="160" height="3" fill="#fff" opacity=".7"/></svg>`}
+function draw(){$('#chips').innerHTML=['All','Sarees','Kurta Sets','Lehengas','Dresses','Co-ords','Bridal'].map(c=>`<button class="chip ${c===filter?'on':''}" onclick="filter='${c}';draw()">${c}</button>`).join('');
+$('#grid').innerHTML=P.map((p,i)=>ok(p)?`<div class="item"><div class="pic" onpointermove="tilt(event,this)" onpointerleave="untilt(this)" onclick="view(${i})">${art(p[3],p[4],p[5])}</div><b>${p[0]}</b><span>${inr(p[1])}</span><button class="btn" onclick="add(${i})">Add to cart</button></div>`:'').join('');
+$('#cnt').textContent=cart.length;$('#usr').textContent=user?'Logout ('+user.name.split(' ')[0]+')':'Login'}
+const add=i=>{cart.push(i);draw()};
+function tilt(e,el){const r=el.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;el.style.setProperty('--ry',x*24+'deg');el.style.setProperty('--rx',-y*24+'deg')}
+function untilt(el){el.style.setProperty('--rx','0deg');el.style.setProperty('--ry','0deg')}
+function view(i){const p=P[i],s=art(p[3],p[4],p[5]);show(`<h2>${p[0]}</h2><div class="stage"><div class="spin"><div class="face">${s}</div><div class="face back">${s}</div></div></div><p><b>${inr(p[1])}</b></p><button class="btn red" onclick="add(${i});hide()">Add to cart</button>`)}
+function showCart(){const t=cart.reduce((s,i)=>s+P[i][1],0);
+show('<h2>Your cart</h2>'+(cart.length?cart.map((i,k)=>`<div class="row"><span>${P[i][0]}<br>${inr(P[i][1])}</span><button onclick="cart.splice(${k},1);draw();showCart()">Remove</button></div>`).join('')+`<p><b>Total: ${inr(t)}</b></p><button class="btn red" onclick="checkout()">Checkout</button>`:'<p>Your cart is empty. Add a saree to get started.</p>'))}
+function acct(){if(user){user=null;save();draw()}else login()}
+function login(msg){show(`<h2>Login or register</h2><small>${msg||''}</small><input id="ln" placeholder="Your name"><input id="le" type="email" placeholder="Email"><input id="lp" type="password" placeholder="Password (6+ characters)"><p class="err" id="err"></p><button class="btn red" onclick="doLogin()">Continue</button><small>Demo login, saved on this device only. Real accounts need the backend.</small>`)}
+function doLogin(){const n=$('#ln').value.trim(),e=$('#le').value.trim();
+if(!n||!/\S+@\S+\.\S+/.test(e)||$('#lp').value.length<6)return $('#err').textContent='Enter your name, a valid email and a password of 6 or more characters.';
+user={name:n,email:e};save();draw();cart.length?checkout():hide()}
+function checkout(){if(!user)return login('Log in to place your order.');
+show(`<h2>Delivery and payment</h2><input id="n" placeholder="Full name"><input id="mo" placeholder="Mobile number" inputmode="tel"><input id="e" placeholder="Email"><textarea id="a" rows="3" placeholder="Full address with city and PIN code"></textarea><p>Pay by</p><label><input type="radio" name="pay" value="UPI" checked style="display:inline;width:auto"> UPI</label><label><input type="radio" name="pay" value="Card" style="display:inline;width:auto"> Card</label><label><input type="radio" name="pay" value="Cash on delivery" style="display:inline;width:auto"> Cash on delivery</label><p class="err" id="err"></p><button class="btn red" onclick="pay()">Place order</button><small>Demo checkout. No payment is taken until a gateway such as Razorpay is connected.</small>`);
+$('#n').value=user.name;$('#e').value=user.email}
+function pay(){if(!$('#n').value.trim()||!/^[6-9]\d{9}$/.test($('#mo').value.trim())||!$('#a').value.trim())return $('#err').textContent='Enter your name, a 10-digit mobile number and your full address.';
+const id='HS'+Date.now().toString().slice(-6),m=document.querySelector('input[name=pay]:checked').value;cart=[];draw();
+show(`<h2>Order placed</h2><p>Thank you! Your order number is <b>${id}</b>. Payment method: ${m}.</p><button class="btn" onclick="hide()">Continue shopping</button>`)}
+draw();
+</script></body></html>
